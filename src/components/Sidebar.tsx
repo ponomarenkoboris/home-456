@@ -1,0 +1,30 @@
+import React, {useState} from 'react'
+import './styles/Sidebar.scss'
+import { useHistory } from "react-router-dom";
+
+const LocalTime = (): React.ReactElement => {
+    const [date, setDate] = useState<string>('')
+    setInterval(() => {
+        setDate(new Date().toLocaleTimeString())
+    }, 1000)
+
+    return <><p className="current-date_date">{new Date().toLocaleDateString()} : {date}</p></>
+}
+
+export function Sidebar(): React.ReactElement {
+    const history = useHistory()
+    let arr: Array<string> = ['vk', 'insta', 'facebook', 'twitter', 'weather']
+
+    return (
+        <section className="sidebar-container">
+            <div className="current-date">
+                <LocalTime />
+            </div>
+            {arr.map((link, idx) => (
+                <div key={idx} className="route-link-wrapper" onClick={() => history.push(`/${link}`)}>
+                    <p className="route-link">{link}</p>
+                </div>
+            ))}
+        </section>
+    )
+}
