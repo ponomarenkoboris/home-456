@@ -40,7 +40,7 @@ const config: typeof webpack.Congiguration = {
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js', '.jsx']
     },
     plugins: [
         new HtmlWebpackPlugin({

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import './styles/Weather.scss'
 import { WEATHER_API_KEY } from '../api/api'
+// import WeatherObserv from '../store/weather'
+import { observer } from 'mobx-react-lite'
 
 const getDailyForecast = async (cityName: string): Promise<Array<any> | string> => {   
     try {
@@ -14,8 +16,7 @@ const getDailyForecast = async (cityName: string): Promise<Array<any> | string> 
     }
 }
 
-
-export function Weather() {
+export const Weather = observer(() => {
     const initialCity = 'Введите название города'
     const [cityName, setCityName] = useState<string>(localStorage.getItem('user_location') || initialCity)
     const [forecast, setForecast] = useState<Array<any> | string>([])
@@ -39,4 +40,4 @@ export function Weather() {
             <div>{JSON.stringify(forecast)}</div>
         </section>
     )
-}
+})
