@@ -40,6 +40,10 @@ const config: typeof webpack.Congiguration = {
         ]
     },
     resolve: {
+        alias: {
+            '@api': path.join(__dirname, '../../src/api/'),
+            '@context': path.join(__dirname, '../../src/context/')
+        },
         extensions: ['.tsx', '.ts', '.js', '.jsx']
     },
     plugins: [

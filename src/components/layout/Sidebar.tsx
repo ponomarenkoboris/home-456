@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom"
 
 export function Sidebar(): React.ReactElement {
     const history = useHistory()
-    const arr: Array<string> = ['vk', 'insta', 'facebook', 'twitter', 'weather', 'messenger'];
+    const arr: Array<string> = ['messenger', 'weather'];
 
     return (
         <section className="sidebar-container">
