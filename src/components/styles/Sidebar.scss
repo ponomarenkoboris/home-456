@@ -7,11 +7,7 @@ $light-gray-color: #e9e9e9;
     display: flex;
     flex-direction: column;
 
-    .current-date_date {
-        font-size: 30px;
-    }
-
-    .route-link-wrapper, .current-date {
+    .route-link-wrapper {
         width: 100%;
         transition: background-color .22s linear;
         cursor: pointer;
@@ -25,7 +21,7 @@ $light-gray-color: #e9e9e9;
             background-color: rgba($color: $light-gray-color, $alpha: .5);
         }
 
-        .route-link, .current-date_date {
+        .route-link {
             padding-left: 10px;
         }
     }

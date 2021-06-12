@@ -1,0 +1,28 @@
+.head-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #c9c9c9;
+    padding: 0 50px;
+
+    .head-datetime-container {
+        display: flex;
+        align-items: flex-end;
+        cursor: default;
+        text-align: center;
+
+        .current_day {
+            font-size: 25px;
+            margin: 0 15px 0 0;
+        }
+
+        .currnet_time {
+            // margin: 0;
+        }
+    }
+
+    .head-user {
+        display: flex;
+        align-items: center;
+    }
+}
