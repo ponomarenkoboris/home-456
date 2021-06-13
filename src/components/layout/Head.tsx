@@ -5,7 +5,7 @@ import { user } from '../../store/user';
 
 export function Head() {
     const location = useLocation()
-    const days = ['Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat', 'Sun']
+    const days = ['Sun', 'Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat']
     const [time, setTime] = useState<{ hour: number, minutes: number }>({ hour: new Date().getHours(), minutes: new Date().getMinutes() })
     const [isChanging, setIsChanging] = useState<boolean>(false)
     const nameRef = useRef<HTMLInputElement>(null)
@@ -22,7 +22,7 @@ export function Head() {
         <div className="head-container">
             <div className="head-datetime-container">
                 <p className="current_daytime">
-                    <span className="current_day">{days[new Date().getDay() - 1]}</span>
+                    <span className="current_day">{days[new Date().getDay()]}</span>
                     {time.hour < 10 ? '0' + time.hour : time.hour} : {time.minutes < 10 ? '0' + time.minutes : time.minutes}
                 </p>
             </div>
@@ -34,11 +34,11 @@ export function Head() {
                         :
                         <input className="user_name-input" placeholder={user.name} ref={nameRef} />}
                 </div>
-                <button 
-                    className="user_submit-btn" 
+                <button
+                    className="user_submit-btn"
                     onClick={submitUserName}
                     style={{ visibility: isChanging ? 'visible' : 'hidden' }}
-                    >Save Changes
+                >Save Changes
                 </button>
             </form>
         </div>

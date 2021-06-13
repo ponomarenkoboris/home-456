@@ -22,13 +22,14 @@
 
     .head-user {
         display: flex;
-        justify-content: space-evenly;
+        justify-content: flex-end;
         align-items: center;
 
         .user_name {
             margin: 0;
             font-weight: bold;
             font-size: 25px;
+            cursor: pointer;
         }
 
         .user_name-input {
@@ -40,6 +41,7 @@
         }
 
         .user_submit-btn {
+            margin-left: 20px;
             height: 36px;
             background-color: initial;
             border: 1px solid #ccc;
