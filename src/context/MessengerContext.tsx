@@ -1,6 +1,6 @@
 // import { createContext, useContext, useReducer } from "react";
 
-// const MessengerAuthContext = createContext(null)
+// const MessengerAuthContext = createContext<object>({})
 
 // export function MessengerAuthContextProvider({ reducer, initialState, children }) {
 //     return (

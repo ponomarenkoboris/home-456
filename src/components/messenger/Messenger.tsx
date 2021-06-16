@@ -1,21 +1,20 @@
-import React from 'react';
-// import { Chat } from './Chat';
-import './styles/Messenger.scss'
-import { Route, Switch, useHistory } from 'react-router-dom'
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
+import { Chat } from './Chat'
 
 export function Messenger() {
-    const history = useHistory()
-
     return (
-        <div className="messenger-container">
-            <Switch>
-                <Route path="/messenger/:roomId">
-                    {/* <Chat /> */}
-                </Route>
-                <Route path="/messenger">
-                    <button onClick={() => history.push('/messenger/5')}>Go to path</button>
-                </Route>
-            </Switch>
+        <div className='app'>
+            <div className='app_body'>
+                <Switch>
+                    <Route path="/messenger/:roomID">
+                        <Chat />
+                    </Route>
+                    <Route>
+                        <h1>hot room id</h1>
+                    </Route>
+                </Switch>  
+            </div>
         </div>
     )
 }

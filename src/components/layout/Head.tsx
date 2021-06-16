@@ -26,7 +26,7 @@ export function Head() {
                     {time.hour < 10 ? '0' + time.hour : time.hour} : {time.minutes < 10 ? '0' + time.minutes : time.minutes}
                 </p>
             </div>
-            <h1 className="head-page">{location.pathname.split('').filter(item => item !== '/').join('')}</h1>
+            <h1 className="head-page">{location.pathname.split('/')[1]}</h1>
             <form className="head-user" onSubmit={submitUserName}>
                 <div className="user_name-wrapper">
                     {!isChanging ?

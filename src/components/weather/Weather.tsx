@@ -3,9 +3,9 @@ import './styles/Weather.scss'
 import { WEATHER_API_KEY } from '../../api/apiKeys'
 import { weather } from '../../store/weather';
 
-const getDailyForecast = async (latitude: number, longitude: number ): Promise<undefined> => {    
+const getDailyForecast = async (latitude: number, longitude: number): Promise<string | undefined> => {
     console.log('getDailyForecast --> ', latitude);
-    
+
     try {
         const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${latitude + ',' + longitude}&days=5&aqi=yes&alerts=yes`)
         const data = await response.json()
@@ -13,7 +13,7 @@ const getDailyForecast = async (latitude: number, longitude: number ): Promise<u
         // TODO debbug (лог выводится 2 раза)
         if (data) weather.setForecast(data)
     } catch (error) {
-        return error.message
+        return 'Sorry, something went wrong...'
     }
 }
 
@@ -21,8 +21,6 @@ export function Weather() {
     const [, setIsReady] = useState<boolean>(false)
 
     if (!localStorage.getItem('user_position')) {
-        console.log('condition success [!localStorage.getItem(\'user_position\')]');
-        
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(({ coords }) => {
                 localStorage.setItem('user_position', JSON.stringify({ latitude: coords.latitude, longitude: coords.longitude }))
@@ -35,8 +33,6 @@ export function Weather() {
 
     if (localStorage.getItem('user_position') && typeof weather.getForecast === 'string') {
         const coords = localStorage.getItem('user_position')
-        console.log('condition success [localStorage.getItem(\'user_position\') && typeof weather.getForecast === \'string\']');
-        
         if (typeof coords === 'string') {
             const { latitude, longitude } = JSON.parse(coords)
             getDailyForecast(latitude, longitude)
