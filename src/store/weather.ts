@@ -1,6 +1,5 @@
 import { action, makeObservable, observable, computed } from 'mobx'
 
-// TODO type Forecast
 interface Forecast {
     location?: {
         name: string,
@@ -17,23 +16,29 @@ interface Forecast {
     }
 }
 
-class Weather {
-    forecast: Forecast = {}
+interface WeatherTypes {
+    weather: Forecast,
+    getForecast: Forecast | string,
+    setForecast: (val: Forecast) => void
+}
+
+class Weather implements WeatherTypes {
+    weather: Forecast = {}
 
     constructor() {
         makeObservable(this, {
-            forecast: observable,
+            weather: observable,
             getForecast: computed,
             setForecast: action,
         })
     }
 
     get getForecast() {
-        return Object.keys(this.forecast).length === 0 ? 'Прогноз погоды' : this.forecast
+        return Object.keys(this.weather).length === 0 ? 'Прогноз погоды' : this.weather
     }
 
     setForecast(value: object) {
-        this.forecast = value
+        this.weather = value
     }
 }
 

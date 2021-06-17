@@ -14,7 +14,7 @@ export function Head() {
 
     const submitUserName = (e: React.SyntheticEvent) => {
         e.preventDefault()
-        if (nameRef && nameRef.current && nameRef.current.value.trim().length > 0) user.changeName(nameRef.current.value)
+        if (nameRef && nameRef.current && nameRef.current.value.trim().length > 0) user.setName(nameRef.current.value)
         setIsChanging(false)
     }
 

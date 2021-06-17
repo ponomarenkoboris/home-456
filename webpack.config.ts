@@ -44,7 +44,7 @@ const config: typeof webpack.Congiguration = {
             '@api': path.join(__dirname, '../../src/api/'),
             '@context': path.join(__dirname, '../../src/context/')
         },
-        extensions: ['.tsx', '.ts', '.js', '.jsx']
+        extensions: ['.tsx', '.ts', '.js']
     },
     plugins: [
         new HtmlWebpackPlugin({

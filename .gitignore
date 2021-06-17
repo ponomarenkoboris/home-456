@@ -2,3 +2,6 @@
 node_modules/
 src/api
 src/components/messenger
+src/components/context/AuthContext.tsx
+src/components/layout/Login.tsx
+src/components/layout/styles/Login.scss

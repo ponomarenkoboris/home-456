@@ -1,24 +1,46 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, computed } from 'mobx'
 
-class User {
-    name: string = 'Авторизоваться'
-    avatar: string = ''
+interface UserStore {
+    user: object | null,
+    name: string,
+    avatar: string,
+    authenticationData: (props: object) => void,
+    data: object | null,
+    setName: (newName: string) => void,
+    setAvatar: (newAvatarSrc: string) => void
+}
+
+class User implements UserStore {
+    name = ''
+    avatar = ''
+    user: object | null  = {}
 
     constructor() {
         makeObservable(this, {
-            name: observable,
+            user: observable,
             avatar: observable,
-            changeName: action,
-            changeAvatar: action
+            name: observable,
+            data: computed,
+            authenticationData: action,
+            setName: action,
+            setAvatar: action
         })
     }
 
-    changeName(value: string) {
+    authenticationData(newData: object) {
+        this.user = newData
+    }
+
+    setName(value: string) {
         this.name = value
     }
 
-    changeAvatar(src: string) {
-        this.avatar = src
+    setAvatar(value: string) {
+        this.avatar = value
+    }
+
+    get data () {
+        return this.user
     }
 }
 
