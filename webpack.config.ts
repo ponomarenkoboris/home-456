@@ -6,6 +6,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 // const ip = require('ip')
 const webpack = require('webpack')
 
+
 const config: typeof webpack.Congiguration = {
     mode: 'development',
     entry: path.resolve(__dirname, 'src', 'index.tsx'),
@@ -48,7 +49,8 @@ const config: typeof webpack.Congiguration = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'public', 'index.html')
+            template: path.resolve(__dirname, 'public', 'index.html'),
+            favicon: path.resolve(__dirname, 'public', 'spacefm_103907.ico')
         }),
         new ForkTsCheckerWebpackPlugin({
             async: false

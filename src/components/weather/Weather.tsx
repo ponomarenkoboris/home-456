@@ -9,8 +9,7 @@ const getDailyForecast = async (latitude: number, longitude: number): Promise<st
     try {
         const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${latitude + ',' + longitude}&days=5&aqi=yes&alerts=yes`)
         const data = await response.json()
-        // if (data.code !== 200) throw 'Something went wrong'       
-        // TODO debbug (лог выводится 2 раза)
+        if (data.code !== 200) throw 'Something went wrong'  
         if (data) weather.setForecast(data)
     } catch (error) {
         return 'Sorry, something went wrong...'
@@ -18,9 +17,9 @@ const getDailyForecast = async (latitude: number, longitude: number): Promise<st
 }
 
 export function Weather() {
-    const [, setIsReady] = useState<boolean>(false)
+    const [isReady, setIsReady] = useState<boolean>(localStorage.getItem('user_position') ? true : false)
 
-    if (!localStorage.getItem('user_position')) {
+    if (!isReady) {
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(({ coords }) => {
                 localStorage.setItem('user_position', JSON.stringify({ latitude: coords.latitude, longitude: coords.longitude }))
@@ -31,7 +30,7 @@ export function Weather() {
     }
 
 
-    if (localStorage.getItem('user_position') && typeof weather.getForecast === 'string') {
+    if (isReady && typeof weather.getForecast === 'string') {
         const coords = localStorage.getItem('user_position')
         if (typeof coords === 'string') {
             const { latitude, longitude } = JSON.parse(coords)

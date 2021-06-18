@@ -19,9 +19,9 @@ export default function App() {
                         <Route path={'/weather'}>
                             <Weather />
                         </Route>
-                        <Route path={'/messenger'}>
-                            <Messenger />
-                        </Route>
+                        
+                        <Messenger />
+                        
                     </Switch>
                 </div>
             </Router>

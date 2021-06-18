@@ -1,6 +1,6 @@
 import { action, makeObservable, observable, computed } from 'mobx'
 
-interface Forecast {
+interface ForecastType {
     location?: {
         name: string,
         region: string,
@@ -17,13 +17,13 @@ interface Forecast {
 }
 
 interface WeatherTypes {
-    weather: Forecast,
-    getForecast: Forecast | string,
-    setForecast: (val: Forecast) => void
+    weather: ForecastType,
+    getForecast: ForecastType | string,
+    setForecast: (val: ForecastType) => void
 }
 
 class Weather implements WeatherTypes {
-    weather: Forecast = {}
+    weather: ForecastType = {}
 
     constructor() {
         makeObservable(this, {

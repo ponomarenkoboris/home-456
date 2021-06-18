@@ -1,23 +1,29 @@
 import { action, makeObservable, observable, computed } from 'mobx'
 
-interface UserStore {
-    user: object | null,
+interface AuthDataPropsType {
+    displayName: string,
+    photoURL: string,
+    email: string
+}
+
+interface UserStateType {
     name: string,
     avatar: string,
-    authenticationData: (props: object) => void,
-    data: object | null,
+    email: string,
+    authenticationData: (props: AuthDataPropsType) => void,
+    data: { name: string, avatar: string, email: string },
     setName: (newName: string) => void,
     setAvatar: (newAvatarSrc: string) => void
 }
 
-class User implements UserStore {
+class User implements UserStateType {
     name = ''
     avatar = ''
-    user: object | null  = {}
+    email = ''
 
     constructor() {
         makeObservable(this, {
-            user: observable,
+            email: observable,
             avatar: observable,
             name: observable,
             data: computed,
@@ -27,8 +33,12 @@ class User implements UserStore {
         })
     }
 
-    authenticationData(newData: object) {
-        this.user = newData
+    authenticationData({ displayName, photoURL, email }: any) { //TODO change type
+        if (displayName && photoURL && email) {
+            this.name = displayName
+            this.avatar = photoURL
+            this.email = email
+        }
     }
 
     setName(value: string) {
@@ -40,7 +50,7 @@ class User implements UserStore {
     }
 
     get data () {
-        return this.user
+        return { name: this.name, avatar: this.avatar, email: this.email }
     }
 }
 
