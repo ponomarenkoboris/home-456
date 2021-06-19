@@ -1,0 +1,16 @@
+.login {
+    height: 100%;
+
+    .login__container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+
+        img {
+            height: 300px;
+            width: auto;
+        }
+    }
+}

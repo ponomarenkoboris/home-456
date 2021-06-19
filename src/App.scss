@@ -8,8 +8,15 @@ body {
     display: flex;
     flex-direction: column;
     border-radius: 50px;
-    box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;;
-}
-.app-pages {
-    display: flex;
+    box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+
+    .app-pages {
+        display: flex;
+    }
+
+    .app-login {
+        height: 95vh;
+        display: flex;
+        justify-content: space-around;
+    }
 }

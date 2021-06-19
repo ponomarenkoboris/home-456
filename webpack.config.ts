@@ -35,7 +35,7 @@ const config: typeof webpack.Congiguration = {
                 ]
             },
             {
-                test: /\.(png|jpe?g)$/i,
+                test: /\.(png|jpe?g|svg)$/i,
                 use: 'file-loader'
             }
         ]

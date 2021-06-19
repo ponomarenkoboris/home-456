@@ -4,7 +4,7 @@
   "main": "index.js",
   "author": "Boris Ponomarenko ",
   "scripts": {
-    "serve": "webpack serve --config webpack.config.ts",
+    "start": "webpack serve --config webpack.config.ts",
     "build": "webpack"
   },
   "license": "MIT",

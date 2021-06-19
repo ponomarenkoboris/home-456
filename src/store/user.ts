@@ -35,6 +35,9 @@ class User implements UserStateType {
 
     authenticationData({ displayName, photoURL, email }: any) { //TODO change type
         if (displayName && photoURL && email) {
+            localStorage.setItem('user_displayName', displayName)
+            localStorage.setItem('user_email', email)
+            localStorage.setItem('user_photoURL', photoURL)
             this.name = displayName
             this.avatar = photoURL
             this.email = email
