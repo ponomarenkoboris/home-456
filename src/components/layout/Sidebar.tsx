@@ -4,13 +4,17 @@ import { useHistory } from "react-router-dom"
 
 export function Sidebar(): React.ReactElement {
     const history = useHistory()
-    const arr: Array<string> = ['messenger', 'weather'];
+    const linksList  = {
+        'messenger': 'Messenger',
+        'weather': 'Weather',
+        'generalChat': 'General chat'
+    }
 
     return (
         <section className="sidebar-container">
-            {arr.map((link, idx) => (
-                <div key={idx} className="route-link-wrapper" onClick={() => history.push(`/${link}`)}>
-                    <p className="route-link">{link}</p>
+            {Object.entries(linksList).map((arr, idx) => (
+                <div key={idx} className="route-link-wrapper" onClick={() => history.push(`/${arr[0]}`)}>
+                    <p className="route-link">{arr[1]}</p>
                 </div>
             ))}
         </section>

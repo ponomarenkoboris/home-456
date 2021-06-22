@@ -3,6 +3,7 @@ import { Sidebar } from './components/layout/Sidebar'
 import { Weather } from "./components/weather/Weather"
 import { Head } from './components/layout/Head'
 import { Messenger } from './components/messenger/Messenger'
+import { GeneralChat } from './components/generalChat/GeneralChat'
 import { Login } from './components/layout/Login'
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import './App.scss'
@@ -18,9 +19,15 @@ export default function App() {
                         <Sidebar />
                         <Redirect from={'/'} to={'/messenger'} />
                         <Switch>
+                            {/* Weather forecast */}
                             <Route path={'/weather'}>
                                 <Weather />
                             </Route>
+                            {/* General Chat */}
+                            <Route path={'/generalChat'}>
+                                <GeneralChat />
+                            </Route>
+                            {/* Messenger */}
                             <Messenger />
                         </Switch>
                     </div>

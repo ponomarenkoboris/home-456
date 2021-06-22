@@ -1,10 +1,12 @@
 body {
     margin: 0;
     font-family: 'Noto Sans JP', sans-serif;
+    overflow-y: hidden;
 }
 .app-container {
     margin: 10px auto;
     width: 90vw;
+    height: 96vh;
     display: flex;
     flex-direction: column;
     border-radius: 50px;

@@ -1,0 +1,23 @@
+.generalChat {
+    flex: .9;
+
+    .generalChat__header {
+        background-color: white;
+        border: 1px solid #eee;
+    }
+    
+    .generalChat__posts {
+        overflow-y: scroll;
+        height: 62vh;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* hide scrollbar for Firefox, IE and Edge */
+        & {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+    }
+}

@@ -1,0 +1,39 @@
+@import '../../mixins/userAvatar.scss';
+
+.chatBox {
+    border-bottom: 8px solid #ccc;
+
+    & > form {
+        display: flex;
+        flex-direction: column;
+
+        .chatBox__input {
+            display: flex;
+            padding: 20px;
+
+            & > input {
+                flex: 1;
+                margin-left: 20px;
+                font-size: 20px;
+                border: none;
+                outline: none;
+            }
+
+            .chatBox__userAvatar {
+                @include user-avatar;
+            }
+        }
+
+        .chatBox__sendMessageBtn {
+            background-color: #50b7f5;
+            cursor: pointer;
+            border: none;
+            font-weight: 900;
+            text-transform: inherit;
+            border-radius: 30px;
+            width: 80px;
+            height: 40px;
+            margin: 0 0 20px auto;
+        }
+    }
+}
