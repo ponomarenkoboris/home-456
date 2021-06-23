@@ -17,7 +17,7 @@ export default function App() {
                     <Head />
                     <div className="app-pages">
                         <Sidebar />
-                        <Redirect from={'/'} to={'/messenger'} />
+                        <Redirect from={'/'} to={'/weather'} />
                         <Switch>
                             {/* Weather forecast */}
                             <Route path={'/weather'}>
@@ -28,7 +28,9 @@ export default function App() {
                                 <GeneralChat />
                             </Route>
                             {/* Messenger */}
-                            <Messenger />
+                            <Route path={'/messenger'}>
+                                <Messenger />
+                            </Route>
                         </Switch>
                     </div>
                 </Router>

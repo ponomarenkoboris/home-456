@@ -3,7 +3,7 @@ import './styles/Login.scss'
 import logo from './assets/logo.svg'
 import { Button } from "@material-ui/core";
 import { auth, provider } from '../../api/firebase'
-import { user } from '../../store/user'
+import { user } from '../../store/userStore'
 
 export function Login() {
     

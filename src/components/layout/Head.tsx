@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import './styles/Head.scss'
 import { useLocation } from 'react-router';
-import { user } from '../../store/user';
+import { user } from '../../store/userStore';
 
 export function Head() {
     const location = useLocation()
