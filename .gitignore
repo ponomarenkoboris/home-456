@@ -2,3 +2,4 @@
 node_modules/
 src/api
 src/components/messenger
+src/components/taskTracker

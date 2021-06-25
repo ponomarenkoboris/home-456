@@ -1,11 +1,12 @@
 .generalChat {
     flex: .9;
+    height: 100%;
 
     .generalChat__header {
         background-color: white;
         border: 1px solid #eee;
     }
-    
+
     .generalChat__posts {
         overflow-y: scroll;
         height: 62vh;

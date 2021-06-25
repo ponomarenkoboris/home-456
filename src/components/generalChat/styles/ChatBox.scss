@@ -26,6 +26,7 @@
 
         .chatBox__sendMessageBtn {
             background-color: #50b7f5;
+            color: #fff;
             cursor: pointer;
             border: none;
             font-weight: 900;
@@ -33,7 +34,7 @@
             border-radius: 30px;
             width: 80px;
             height: 40px;
-            margin: 0 0 20px auto;
+            margin: 0 20px 20px auto;
         }
     }
 }

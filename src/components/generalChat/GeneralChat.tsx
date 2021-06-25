@@ -16,7 +16,7 @@ import db from '../../api/firebase'
 // }
 
 export function GeneralChat() {
-    const [posts, setPosts] = useState<Array<any>>([]) // TODO изменить тип
+    const [posts, setPosts] = useState<Array<any>>([])
 
     useEffect(() => {
         db.collection("posts")
@@ -24,7 +24,7 @@ export function GeneralChat() {
             .onSnapshot((snapshot) =>
                 setPosts(snapshot.docs.map(doc => doc.data()))
             );
-    })
+    }, [])
 
     return (
         <div className="generalChat">

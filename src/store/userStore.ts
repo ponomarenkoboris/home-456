@@ -1,4 +1,4 @@
-import { action, makeObservable, observable, computed } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 
 interface AuthDataPropsType {
     displayName: string,
@@ -11,22 +11,20 @@ interface UserStateType {
     avatar: string,
     email: string,
     authenticationData: (props: AuthDataPropsType) => void,
-    data: { name: string, avatar: string, email: string },
     setName: (newName: string) => void,
     setAvatar: (newAvatarSrc: string) => void
 }
 
 class User implements UserStateType {
-    name = ''
-    avatar = ''
-    email = ''
+    name = localStorage.getItem('user_displayName') || ''
+    avatar = localStorage.getItem('user_photoURL') || ''
+    email = localStorage.getItem('user_email') || ''
 
     constructor() {
         makeObservable(this, {
             email: observable,
             avatar: observable,
             name: observable,
-            data: computed,
             authenticationData: action,
             setName: action,
             setAvatar: action
@@ -44,16 +42,14 @@ class User implements UserStateType {
         }
     }
 
-    setName(value: string) {
-        this.name = value
+    setName(name: string) {
+        localStorage.setItem('user_displayName', name)
+        this.name = name
     }
 
-    setAvatar(value: string) {
-        this.avatar = value
-    }
-
-    get data () {
-        return { name: this.name, avatar: this.avatar, email: this.email }
+    setAvatar(url: string) {
+        localStorage.setItem('user_photoURL', url)
+        this.avatar = url
     }
 }
 
