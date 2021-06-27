@@ -1,4 +1,5 @@
 @import '../../mixins/userAvatar.scss';
+@import '../../mixins/inputAndButton.scss';
 
 .chatBox {
     border-bottom: 8px solid #ccc;
@@ -12,11 +13,7 @@
             padding: 20px;
 
             & > input {
-                flex: 1;
-                margin-left: 20px;
-                font-size: 20px;
-                border: none;
-                outline: none;
+                @include input-field;
             }
 
             .chatBox__userAvatar {
@@ -25,16 +22,7 @@
         }
 
         .chatBox__sendMessageBtn {
-            background-color: #50b7f5;
-            color: #fff;
-            cursor: pointer;
-            border: none;
-            font-weight: 900;
-            text-transform: inherit;
-            border-radius: 30px;
-            width: 80px;
-            height: 40px;
-            margin: 0 20px 20px auto;
+            @include send-button;
         }
     }
 }

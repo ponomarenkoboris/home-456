@@ -1,16 +1,11 @@
 import { action, makeObservable, observable } from 'mobx'
-
-interface AuthDataPropsType {
-    displayName: string,
-    photoURL: string,
-    email: string
-}
+import firebase from 'firebase'
 
 interface UserStateType {
     name: string,
     avatar: string,
     email: string,
-    authenticationData: (props: AuthDataPropsType) => void,
+    authenticationData: (props: firebase.User) => void,
     setName: (newName: string) => void,
     setAvatar: (newAvatarSrc: string) => void
 }
@@ -31,7 +26,7 @@ class User implements UserStateType {
         })
     }
 
-    authenticationData({ displayName, photoURL, email }: any) { //TODO change type
+    authenticationData({ displayName, photoURL, email }: firebase.User) {
         if (displayName && photoURL && email) {
             localStorage.setItem('user_displayName', displayName)
             localStorage.setItem('user_email', email)

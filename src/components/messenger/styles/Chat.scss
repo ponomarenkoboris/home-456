@@ -1,0 +1,51 @@
+@import '../../mixins/inputAndButton.scss';
+.chat {
+    .chat__header {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        border-bottom: 8px solid #ccc;
+
+        & > input {
+            @include input-field;
+        }
+
+        & > button {
+            @include send-button;
+        }
+    }
+    .chat__body {
+        overflow-y: scroll;
+        flex: 1;
+        background-repeat: repeat;
+        background-position: center;
+        padding: 30px;
+
+        .chat__message {
+            position: relative;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 10px;
+            width: fit-content;
+            background: #ffffff;
+            margin-bottom: 30px;
+
+            chat__name {
+                position: absolute;
+                top: -15px;
+                font-weight: 800;
+                font-size: xx-small;
+            }
+
+            .chat__timestamp {
+                margin-left: 10px;
+                font-size: xx-small;
+            }
+
+            .chat__reciever {
+                margin-left: auto;
+                background-color: #dcf8c6;
+            }
+        }
+    }
+}

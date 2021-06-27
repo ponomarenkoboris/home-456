@@ -6,7 +6,7 @@ import db from '../../api/firebase'
 export default function ChatBox() {
     const mainInputRef = useRef<HTMLInputElement>(null)
 
-    const sendPost = (e: React.SyntheticEvent) => {
+    const sendPost = (e: React.SyntheticEvent): void => {
         e.preventDefault()
         if (mainInputRef && mainInputRef.current && mainInputRef.current.value.trim()) {
             db.collection('posts').add({

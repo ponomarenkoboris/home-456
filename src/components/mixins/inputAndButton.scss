@@ -1,0 +1,20 @@
+@mixin input-field {
+    flex: 1;
+    margin-left: 20px;
+    font-size: 20px;
+    border: none;
+    outline: none;
+}
+
+@mixin send-button {
+    background-color: #50b7f5;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    font-weight: 900;
+    text-transform: inherit;
+    border-radius: 30px;
+    width: 80px;
+    height: 40px;
+    margin: 0 20px 20px auto;
+}

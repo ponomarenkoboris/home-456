@@ -1,0 +1,14 @@
+.messenger {
+    flex: .9;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .messenger__body {
+        flex: .8;
+    }
+
+    .messenger__footer {
+        flex: .2;
+    }
+}
