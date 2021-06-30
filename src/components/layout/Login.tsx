@@ -1,6 +1,6 @@
 import React from 'react'
 import './styles/Login.scss'
-import logo from './assets/logo.svg'
+import logo from './assets/houseIcon.svg'
 import { Button } from "@material-ui/core";
 import { auth, provider } from '../../api/firebase'
 import { user } from '../../store/userStore'

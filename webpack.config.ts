@@ -50,7 +50,7 @@ const config: typeof webpack.Congiguration = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'public', 'index.html'),
-            favicon: path.resolve(__dirname, 'public', 'spacefm_103907.ico')
+            favicon: path.resolve(__dirname, 'public', 'bigapphomeicon.ico')
         }),
         new ForkTsCheckerWebpackPlugin({
             async: false

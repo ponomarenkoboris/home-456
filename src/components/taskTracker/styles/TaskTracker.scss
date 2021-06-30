@@ -1,0 +1,26 @@
+.taskTracker__container {
+    flex: .9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .container__header {
+        margin-top: 30px;
+        height: 40px;
+        background-color: #eee;
+        border-radius: 20px;
+        width: 200px;
+        line-height: inherit;
+        letter-spacing: inherit;
+        font-size: initial;
+        text-transform: none;
+    }
+
+    .taskTracker {
+        &__body {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+    }
+}

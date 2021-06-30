@@ -1,5 +1,16 @@
 .bottombarChat, .newChat__button {
     height: 100%;
+    line-height: inherit;
+    letter-spacing: inherit;
+    font-size: initial;
+    text-transform: none;
+}
+
+.bottombarChat__roomName, .MuiButton-label {
+    line-height: inherit;
+    letter-spacing: inherit;
+    font-size: initial;
+    text-transform: none;
 }
 
 .MuiButton-root.newChat__button:hover {
