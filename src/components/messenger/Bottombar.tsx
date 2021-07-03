@@ -7,7 +7,7 @@ import db from '../../api/firebase'
 
 export function Bottombar() {
     const [rooms, setRooms] = useState<Array<any>>([])
-
+    
     useEffect(() => {
         db.collection('rooms')
             .onSnapshot(snap => setRooms(snap.docs.map(doc => ({ id: doc.id, data: doc.data() }))))

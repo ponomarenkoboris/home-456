@@ -24,7 +24,7 @@ export function Column({ column, tasks }: IColumnProps) {
                         style={{ backgroundColor: snapshot.isDraggingOver ? 'skyblue' : 'inherit' }}
                     >
                         <h3>{column.title}</h3>
-                        {tasks.map((task: { id: string, content: string }, idx: number) => <Task key={task.id} task={task} index={idx} />)}
+                        {tasks.map((task: { id: string, content: string }, idx: number) => task?.id ? <Task key={task.id} task={task} index={idx} /> : '')}
                     </div> 
                 )}
             </Droppable>

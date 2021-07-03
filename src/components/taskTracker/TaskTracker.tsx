@@ -1,18 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import './styles/TaskTracker.scss'
 import { Column } from './Column'
 import { Button } from '@material-ui/core';
-import taskState, { IInitialState } from '../../store/initial-data'
+import db from '../../api/firebase'
 
-// Whatch types: https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/types.md
+// TODO optimization and drag&drop logic
+
+export interface IInitialState {
+    tasks: {
+        [id: string]: { id: string, content: string }
+    },
+    columns: {
+        [id: string]: { id: string, title: string, taskIds: Array<string> }
+    },
+    columnOrder: Array<string>
+}
+
 // TODO add styles
 
 export function TaskTracker() {
-    const [initialData, setInitialData] = useState<IInitialState>(taskState)
+    const [initialData, setInitialData] = useState<IInitialState>()
+
+    useEffect(() => {
+        db.collection('tasks')
+            .doc('taskData')
+            .onSnapshot(snap => {
+                const taskState = snap.data()
+                if (taskState?.tasks && taskState?.columns && taskState?.columnOrder) {
+                    setInitialData({
+                        tasks: taskState.tasks,
+                        columns: taskState.columns,
+                        columnOrder: taskState.columnOrder
+                    })
+                }
+            })
+    })
 
     const dragEnd = ({ destination, source, draggableId }: DropResult): void => {
-        if (!destination || destination.droppableId === source.droppableId && destination.index === source.index) return
+        if (!destination || destination.droppableId === source.droppableId && destination.index === source.index || !initialData) return
         const start = initialData.columns[source.droppableId]
         const finish = initialData.columns[destination.droppableId]
 
@@ -24,6 +50,7 @@ export function TaskTracker() {
                 ...start,
                 taskIds: newTaskIds
             }
+
             setInitialData({
                 ...initialData,
                 columns: {
@@ -60,6 +87,7 @@ export function TaskTracker() {
     }
 
     const createNewTask = (): void => {
+        if (!initialData) return
         const taskName: string | null = prompt('Enter task name...')
         if (typeof taskName !== 'string' || !taskName.trim()) return
         const taskContent: string | null = prompt('Enter task content...')
@@ -91,7 +119,7 @@ export function TaskTracker() {
             >
                 <div className="taskTracker">
                     <div className="taskTracker__body">
-                        {initialData.columnOrder.map(columnId => {
+                        {initialData?.columnOrder && initialData.columnOrder.map(columnId => {
                             const column = initialData.columns[columnId]
                             const tasks = column.taskIds.map(taskId => initialData.tasks[taskId])
                             return <Column key={column.id} column={column} tasks={tasks} />

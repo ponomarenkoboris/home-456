@@ -3,7 +3,10 @@ import { Draggable } from 'react-beautiful-dnd'
 import './styles/Task.scss'
 
 interface ITask {
-    task: any,
+    task: {
+        id: string,
+        content: string
+    },
     index: number,
 }
 

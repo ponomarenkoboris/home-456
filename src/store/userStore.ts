@@ -22,7 +22,7 @@ class User implements UserStateType {
             name: observable,
             authenticationData: action,
             setName: action,
-            setAvatar: action
+            setAvatar: action,
         })
     }
 
