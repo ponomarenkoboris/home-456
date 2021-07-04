@@ -1,10 +1,14 @@
 import React, { useState, useRef } from 'react';
 import './styles/Head.scss'
 import { useLocation } from 'react-router';
-import { user } from '../../store/userStore';
 import { linksList } from './Sidebar';
+import { observer } from 'mobx-react-lite'
+import { Button } from '@material-ui/core';
+import { user } from '../../store/userStore'
 
-export function Head() {
+// TODO стилизовать кнопку logout
+
+export const Head = observer(() => {
     const location = useLocation()
     const days = ['Sun', 'Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat']
     const [time, setTime] = useState<{ hour: number, minutes: number }>({ hour: new Date().getHours(), minutes: new Date().getMinutes() })
@@ -21,6 +25,11 @@ export function Head() {
         setIsChanging(false)
     }
 
+    const logout = () => {
+        localStorage.clear()
+        window.location.reload()
+    }
+
     return (
         <div className="head-container">
             <div className="head-datetime-container">
@@ -30,9 +39,9 @@ export function Head() {
                 </p>
             </div>
             <h1 className="head-page">{linksList.get(location.pathname.split('/')[1])}</h1>
-            <form className="head-user" onSubmit={submitUserName}>
+            <form className="head-user" onSubmit={submitUserName} onBlur={() => setIsChanging(false)}>
                 {!isChanging ? (
-                    <div className="user__name-wrapper" onClick={() => setIsChanging(true)}>
+                    <div className="user__name-wrapper" onClick={() => setIsChanging(true) }>
                         <p className="user__name">{user.name}</p>
                         <img className="user__avatar" src={user.avatar} alt={`${user.name} avatar`} />
                     </div>
@@ -49,6 +58,7 @@ export function Head() {
                 >Save
                 </button>
             </form>
+            <Button className="user__logoutBtn" onClick={logout}>Logout</Button>
         </div>
     )
-}
+})

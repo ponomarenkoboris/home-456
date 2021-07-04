@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from 'mobx'
 import firebase from 'firebase'
 
-interface UserStateType {
+export interface IUserStateType {
     name: string,
     avatar: string,
     email: string,
@@ -10,7 +10,7 @@ interface UserStateType {
     setAvatar: (newAvatarSrc: string) => void
 }
 
-class User implements UserStateType {
+class User implements IUserStateType {
     name = localStorage.getItem('user_displayName') || ''
     avatar = localStorage.getItem('user_photoURL') || ''
     email = localStorage.getItem('user_email') || ''

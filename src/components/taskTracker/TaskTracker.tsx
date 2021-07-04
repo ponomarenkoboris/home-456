@@ -1,46 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import './styles/TaskTracker.scss'
 import { Column } from './Column'
 import { Button } from '@material-ui/core';
 import db from '../../api/firebase'
+import { observer } from 'mobx-react-lite'
+import { taskStore } from '../../store/taskTrackerStore'
 
-// TODO optimization and drag&drop logic
+/* 
+    TODO <FIX> [MobX] Since strict-mode is enabled, changing (observed) observable values without using an action is not allowed. Tried to modify: TaskTracker@2.columns
+    Add styles
+    Delete name field from creating new task
+*/
 
-export interface IInitialState {
-    tasks: {
-        [id: string]: { id: string, content: string }
-    },
-    columns: {
-        [id: string]: { id: string, title: string, taskIds: Array<string> }
-    },
-    columnOrder: Array<string>
-}
+export const TaskTracker = observer(() => {
 
-// TODO add styles
-
-export function TaskTracker() {
-    const [initialData, setInitialData] = useState<IInitialState>()
-
-    useEffect(() => {
+    if (taskStore.columnOrder.length === 0){
         db.collection('tasks')
             .doc('taskData')
             .onSnapshot(snap => {
-                const taskState = snap.data()
-                if (taskState?.tasks && taskState?.columns && taskState?.columnOrder) {
-                    setInitialData({
-                        tasks: taskState.tasks,
-                        columns: taskState.columns,
-                        columnOrder: taskState.columnOrder
-                    })
+                const data = snap.data()
+                if (data?.tasks && data?.columns && data?.columnOrder) {
+                    taskStore.tasks = data.tasks
+                    taskStore.columns = data.columns
+                    taskStore.columnOrder = data.columnOrder
                 }
             })
-    })
+    }
+    
 
     const dragEnd = ({ destination, source, draggableId }: DropResult): void => {
-        if (!destination || destination.droppableId === source.droppableId && destination.index === source.index || !initialData) return
-        const start = initialData.columns[source.droppableId]
-        const finish = initialData.columns[destination.droppableId]
+        if (!destination || destination.droppableId === source.droppableId && destination.index === source.index) return
+        const start = taskStore.columns[source.droppableId]
+        const finish = taskStore.columns[destination.droppableId]
 
         if (start == finish) {
             const newTaskIds = [...start.taskIds]
@@ -50,14 +42,7 @@ export function TaskTracker() {
                 ...start,
                 taskIds: newTaskIds
             }
-
-            setInitialData({
-                ...initialData,
-                columns: {
-                    ...initialData.columns,
-                    [newColumn.id]: newColumn
-                }
-            })
+            taskStore.singleColumnMove(newColumn)
             return;
         }
 
@@ -75,43 +60,17 @@ export function TaskTracker() {
             ...finish,
             taskIds: finishTaskIds
         }
+        taskStore.betweenColumnMove(newStart, newFinish)
 
-        setInitialData({
-            ...initialData,
-            columns: {
-                ...initialData.columns,
-                [newStart.id]: newStart,
-                [newFinish.id]: newFinish
-            }
-        })
     }
 
     const createNewTask = (): void => {
-        if (!initialData) return
-        const taskName: string | null = prompt('Enter task name...')
-        if (typeof taskName !== 'string' || !taskName.trim()) return
         const taskContent: string | null = prompt('Enter task content...')
         if (typeof taskContent !== 'string' || !taskContent.trim()) return
-        const newTaskIds = [...initialData.columns['column-1'].taskIds]
-        newTaskIds.push(taskName)
-
-        setInitialData({
-            ...initialData,
-            tasks: {
-                ...initialData.tasks,
-                [taskName]: { id: taskName, content: taskContent }
-            },
-            columns: {
-                ...initialData.columns,
-                ['column-1']: {
-                    ...initialData.columns['column-1'],
-                    taskIds: newTaskIds
-                }
-            }
-        })
+        taskStore.addTask(taskContent)
     }
 
-    return (
+    return taskStore.columnOrder.length !== 0 ? (
         <div className="taskTracker__container">
             <Button className="container__header" onClick={createNewTask}>Create new Task</Button>
             <DragDropContext
@@ -119,14 +78,16 @@ export function TaskTracker() {
             >
                 <div className="taskTracker">
                     <div className="taskTracker__body">
-                        {initialData?.columnOrder && initialData.columnOrder.map(columnId => {
-                            const column = initialData.columns[columnId]
-                            const tasks = column.taskIds.map(taskId => initialData.tasks[taskId])
+                        {taskStore?.columnOrder && taskStore.columnOrder.map(columnId => {
+                            const column = taskStore.columns[columnId]
+                            const tasks = column.taskIds.map(taskId => taskStore.tasks[taskId])
                             return <Column key={column.id} column={column} tasks={tasks} />
                         })}
                     </div>
                 </div>
             </DragDropContext>
         </div>
+    ) : (
+        <h1>Wait...</h1>
     )
-}
+})

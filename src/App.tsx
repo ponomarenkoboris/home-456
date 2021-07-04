@@ -10,8 +10,7 @@ import { Login } from './components/layout/Login'
 import { TaskTracker } from './components/taskTracker/TaskTracker';
 
 export default function App() {
-
-    return (
+        return (
         <section className="app-container">
             {localStorage.getItem('user_email') ? (
                 <Router>
