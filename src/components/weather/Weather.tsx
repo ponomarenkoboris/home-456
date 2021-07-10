@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { WEATHER_API_KEY } from '../../api/apiKeys'
 import './styles/Weather.scss'
 
@@ -19,17 +19,32 @@ interface IWeather {
 // TODO styles and render logic 
 export function Weather() {
     const [weather, setWeather] = useState<IWeather | null>(null)
-    
-    if (weather === null && 'geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(({ coords }) => {
-            const { latitude, longitude }: { latitude: number, longitude: number } = coords
-            fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${latitude + ',' + longitude}&days=5&aqi=no&alerts=yes`)
-                .then(result => result.json())
-                .then(data => {
-                    setWeather(data)
-                })
-        })
-    }
+
+    // if (weather === null && 'geolocation' in navigator) {
+    //     navigator.geolocation.getCurrentPosition(({ coords }) => {
+    //         const { latitude, longitude }: { latitude: number, longitude: number } = coords
+    //         fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${latitude + ',' + longitude}&days=5&aqi=no&alerts=yes`)
+    //             .then(result => result.json())
+    //             .then(data => {
+    //                 setWeather(data)
+    //             })
+    //     })
+    // }
+
+    useEffect(() => {
+        let isMounted = true
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(({ coords }) => {
+                const { latitude, longitude }: { latitude: number, longitude: number } = coords
+                fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${latitude + ',' + longitude}&days=5&aqi=no&alerts=yes`)
+                    .then(result => result.json())
+                    .then(data => {
+                        isMounted && setWeather(data)
+                    })
+            })
+        }
+        return () => { isMounted = false }
+    })
 
     return weather ? (
         <div className="weather">

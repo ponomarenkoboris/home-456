@@ -13,17 +13,19 @@ export function Chat() {
     const [messeges, setMesseges] = useState<Array<any>>([])
 
     useEffect(() => {
+        let isMounted = true
         if (roomId) {
             db.collection('rooms')
                 .doc(roomId)
-                .onSnapshot(snap => setRoomName(snap.data()?.name))
+                .onSnapshot(snap => isMounted && setRoomName(snap.data()?.name))
 
             db.collection('rooms')
                 .doc(roomId)
                 .collection('messeges')
                 .orderBy('timestamp', 'asc')
-                .onSnapshot(snap => setMesseges(snap.docs.map(doc => doc.data())))
+                .onSnapshot(snap => isMounted && setMesseges(snap.docs.map(doc => doc.data())))
         }
+        return () => { isMounted = false }
     }, [roomId])
 
     const sendMessage = (e: React.SyntheticEvent): void => {
@@ -35,7 +37,7 @@ export function Chat() {
                 .collection('messeges')
                 .add({
                     message: message.current.value,
-                    name: user.name,
+                    name: user.displayName,
                     timestamp: new Date()
                 })
             message.current.value = ''
@@ -50,7 +52,7 @@ export function Chat() {
             </form>
             <div className="chat__body">
                 {messeges.map(item => (
-                    <p key={item.timestamp} className={`chat__message ${item.name === user.name && 'chat__reciever'}`}>
+                    <p key={item.timestamp} className={`chat__message ${item.name === user.displayName && 'chat__reciever'}`}>
                         <span className="chat__name">{item.name}</span>
                         
                         <span className="chat__timestamp">{new Date(item.timestamp?.toDate()).toLocaleDateString()}</span>

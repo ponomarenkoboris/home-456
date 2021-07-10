@@ -11,7 +11,7 @@ const config: typeof webpack.Congiguration = {
     mode: 'development',
     entry: path.resolve(__dirname, 'src', 'index.tsx'),
     output: {
-        publicPath: '/'
+        path: path.resolve(__dirname, 'dist')
     },
     module: {
         rules: [
@@ -30,7 +30,20 @@ const config: typeof webpack.Congiguration = {
                 use: [
                     'style-loader',
                     'css-loader',
-                    'postcss-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    'postcss-preset-env',
+                                    require('autoprefixer')({
+                                        overrideBrowserslist: 'last 3 versions'
+                                    }),
+                                    require('cssnano')
+                                ]
+                            }
+                        }
+                    },
                     'sass-loader'
                 ]
             },

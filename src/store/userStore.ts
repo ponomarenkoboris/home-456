@@ -1,25 +1,31 @@
-import { action, makeObservable, observable } from 'mobx'
+import { action, makeObservable, observable, computed } from 'mobx'
 import firebase from 'firebase'
 
 export interface IUserStateType {
-    name: string,
-    avatar: string,
-    email: string,
+    displayName: string,
+    photoUrl: string,
+    userEmail: string,
     authenticationData: (props: firebase.User) => void,
     setName: (newName: string) => void,
     setAvatar: (newAvatarSrc: string) => void
 }
 
 class User implements IUserStateType {
-    name = localStorage.getItem('user_displayName') || ''
-    avatar = localStorage.getItem('user_photoURL') || ''
-    email = localStorage.getItem('user_email') || ''
+    private name = localStorage.getItem('user_displayName') || ''
+    private avatar = localStorage.getItem('user_photoURL') || ''
+    private email = localStorage.getItem('user_email') || ''
+    get displayName() { return this.name }
+    get photoUrl() { return this.avatar }
+    get userEmail() { return this.email }
 
     constructor() {
-        makeObservable(this, {
+        makeObservable<User, 'email' | 'avatar' | 'name'>(this, {
             email: observable,
             avatar: observable,
             name: observable,
+            displayName: computed,
+            photoUrl: computed,
+            userEmail: computed,
             authenticationData: action,
             setName: action,
             setAvatar: action,

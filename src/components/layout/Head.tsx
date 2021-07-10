@@ -42,12 +42,12 @@ export const Head = observer(() => {
             <form className="head-user" onSubmit={submitUserName} onBlur={() => setIsChanging(false)}>
                 {!isChanging ? (
                     <div className="user__name-wrapper" onClick={() => setIsChanging(true) }>
-                        <p className="user__name">{user.name}</p>
-                        <img className="user__avatar" src={user.avatar} alt={`${user.name} avatar`} />
+                        <p className="user__name">{user.displayName}</p>
+                        <img className="user__avatar" src={user.photoUrl} alt={`${user.displayName} avatar`} />
                     </div>
                 ) : (
                     <div className="user__name-wrapper">
-                        <input className="user__name-input name-input" placeholder={user.name} ref={nameRef} />
+                        <input className="user__name-input name-input" placeholder={user.displayName} ref={nameRef} />
                         <input className="user__name-input" placeholder="Аватар" ref={avatarRef} />
                     </div>
                 )}

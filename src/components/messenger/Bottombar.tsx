@@ -9,8 +9,11 @@ export function Bottombar() {
     const [rooms, setRooms] = useState<Array<any>>([])
     
     useEffect(() => {
+        let isMounted = true
         db.collection('rooms')
-            .onSnapshot(snap => setRooms(snap.docs.map(doc => ({ id: doc.id, data: doc.data() }))))
+            .onSnapshot(snap => isMounted && setRooms(snap.docs.map(doc => ({ id: doc.id, data: doc.data() }))))
+        
+        return () => { isMounted = false }
     })
 
     return (

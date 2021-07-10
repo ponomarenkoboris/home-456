@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Post from './Post'
 import ChatBox from './ChatBox'
 import './styles/GeneralChat.scss'
@@ -19,11 +19,15 @@ export function GeneralChat() {
     const [posts, setPosts] = useState<Array<any>>([])
 
     
-    db.collection("posts")
-        .orderBy('timestamp', 'desc')
-        .onSnapshot((snapshot) =>
-            setPosts(snapshot.docs.map(doc => doc.data()))
-        );
+    useEffect(() => {
+        let isMounted = true
+        db.collection("posts")
+            .orderBy('timestamp', 'desc')
+            .onSnapshot((snapshot) =>
+                isMounted && setPosts(snapshot.docs.map(doc => doc.data()))
+            );
+        return () => { isMounted = false };
+    })
     
 
     return (

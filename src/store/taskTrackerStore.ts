@@ -2,6 +2,11 @@ import { makeObservable, observable, action } from "mobx";
 import { nanoid } from "nanoid";
 import db from '../api/firebase'
 
+/*
+    TODO <FIX> [MobX] Since strict-mode is enabled, changing (observed) observable values without using an action is not allowed. Tried to modify: TaskTracker@2.columns
+    Add styles
+*/
+
 interface IEntryColumn {
     id: string,
     title: string,
@@ -22,22 +27,28 @@ interface ITasks {
 }
 
 export interface IInitialState {
-    tasks: ITasks,
-    columns: IColumns,
-    columnOrder: Array<string>,
-    addTask: (content: string) => void,
+    addTask: (content: string) => any,
     deleteTask: (task: IEntryTask) => void
     singleColumnMove: (column: IEntryColumn) => void,
     betweenColumnMove: (start: IEntryColumn, finish: IEntryColumn) => void
 }
 
 class TaskTracker implements IInitialState {
-    tasks: ITasks = {}
-    columns: IColumns = {}
-    columnOrder: Array<string> = []
+    private tasks: ITasks = {}
+    private columns: IColumns = {}
+    private columnOrder: Array<string> = []
+
+    get trackerTasks() { return this.tasks }
+    set trackerTasks(tasks: ITasks) { this.tasks = tasks }
+
+    get trackerColumns() { return this.columns }
+    set trackerColumns(columns: IColumns) { this.columns = columns }
+
+    get trackerColumnOrder() { return this.columnOrder }
+    set trackerColumnOrder(columnOrder: Array<string>) { this.columnOrder = columnOrder }
 
     constructor() {
-        makeObservable(this, {
+        makeObservable<TaskTracker, 'tasks' | 'columns' | 'columnOrder'>(this, {
             tasks: observable,
             columns: observable,
             columnOrder: observable,
@@ -48,60 +59,60 @@ class TaskTracker implements IInitialState {
         })
     }
 
-    addTask<T extends string>(content: T): void {
+    addTask<T extends string>(content: T) {
         const uniqId = nanoid(10)
-        this.tasks = {
-            ...this.tasks,
+        this.trackerTasks = {
+            ...this.trackerTasks,
             [uniqId]: { id: uniqId, content }
         }
-        this.columns = {
-            ...this.columns,
+        this.trackerColumns = {
+            ...this.trackerColumns,
             ['column-1']: {
-                ...this.columns['column-1'],
-                taskIds: [...this.columns['column-1'].taskIds, uniqId]
+                ...this.trackerColumns['column-1'],
+                taskIds: [...this.trackerColumns['column-1'].taskIds, uniqId]
             }
         }
 
-        db.collection('tasks').doc('taskData').update({ tasks: this.tasks, columns: this.columns })
+        db.collection('tasks').doc('taskData').update({ tasks: this.trackerTasks, columns: this.trackerColumns })
     }
 
-    deleteTask(task: IEntryTask): void {
-        delete this.tasks[task.id]
-        for (const key of Object.keys(this.columns)) {
-            if (this.columns[key].taskIds.find(taskId => taskId === task.id)) {
-                this.columns = {
-                    ...this.columns,
+    deleteTask(task: IEntryTask) {
+        delete this.trackerTasks[task.id]
+        for (const key of Object.keys(this.trackerColumns)) {
+            if (this.trackerColumns[key].taskIds.find(taskId => taskId === task.id)) {
+                this.trackerColumns = {
+                    ...this.trackerColumns,
                     [key]: {
-                        ...this.columns[key],
-                        taskIds: this.columns[key].taskIds.filter(taskId => taskId !== task.id)
+                        ...this.trackerColumns[key],
+                        taskIds: this.trackerColumns[key].taskIds.filter(taskId => taskId !== task.id)
                     }
                 }
             }
         }
 
         db.collection('tasks').doc('taskData').update({
-            tasks: this.tasks,
-            columns: this.columns
+            tasks: this.trackerTasks,
+            columns: this.trackerColumns
         })
     }
 
-    singleColumnMove(column: IEntryColumn): void {
-        this.columns = {
-            ...this.columns,
+    singleColumnMove(column: IEntryColumn) {
+        this.trackerColumns = {
+            ...this.trackerColumns,
             [column.id]: column
         }
 
-        db.collection('tasks').doc('taskData').update({ columns: this.columns })
+        db.collection('tasks').doc('taskData').update({ columns: this.trackerColumns })
     }
 
-    betweenColumnMove<T extends IEntryColumn>(start: T, finish: T): void {
-        this.columns = {
-            ...this.columns,
+    betweenColumnMove<T extends IEntryColumn>(start: T, finish: T) {
+        this.trackerColumns = {
+            ...this.trackerColumns,
             [start.id]: start,
             [finish.id]: finish
         }
 
-        db.collection('tasks').doc('taskData').update({ columns: this.columns })
+        db.collection('tasks').doc('taskData').update({ columns: this.trackerColumns })
     }
 }
 

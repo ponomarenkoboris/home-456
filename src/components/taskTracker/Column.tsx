@@ -25,6 +25,7 @@ export function Column({ column, tasks }: IColumnProps) {
                     >
                         <h3>{column.title}</h3>
                         {tasks.map((task: { id: string, content: string }, idx: number) => task?.id ? <Task key={task.id} task={task} index={idx} /> : '')}
+                        {provided.placeholder}
                     </div> 
                 )}
             </Droppable>

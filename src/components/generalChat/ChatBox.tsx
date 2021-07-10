@@ -10,9 +10,9 @@ export default function ChatBox() {
         e.preventDefault()
         if (mainInputRef && mainInputRef.current && mainInputRef.current.value.trim()) {
             db.collection('posts').add({
-                displayName: user.name,
-                email: user.email,
-                avatar: user.avatar,
+                displayName: user.displayName,
+                email: user.userEmail,
+                avatar: user.photoUrl,
                 text: mainInputRef.current.value,
                 timestamp: new Date()
             })
@@ -25,7 +25,7 @@ export default function ChatBox() {
             <form onSubmit={sendPost}>
                 <div className="chatBox__input">
                     <div className="chatBox__userAvatar">
-                        <img src={user.avatar} alt={`${user.name} avatar`} />
+                        <img src={user.photoUrl} alt={`${user.displayName} avatar`} />
                     </div>
                     <input ref={mainInputRef} type="text" placeholder="Type text..." />
                 </div>
