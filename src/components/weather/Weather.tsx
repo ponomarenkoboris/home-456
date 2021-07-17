@@ -20,22 +20,12 @@ interface IWeather {
 export function Weather() {
     const [weather, setWeather] = useState<IWeather | null>(null)
 
-    // if (weather === null && 'geolocation' in navigator) {
-    //     navigator.geolocation.getCurrentPosition(({ coords }) => {
-    //         const { latitude, longitude }: { latitude: number, longitude: number } = coords
-    //         fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${latitude + ',' + longitude}&days=5&aqi=no&alerts=yes`)
-    //             .then(result => result.json())
-    //             .then(data => {
-    //                 setWeather(data)
-    //             })
-    //     })
-    // }
-
     useEffect(() => {
         let isMounted = true
-        if ('geolocation' in navigator) {
+        if ('geolocation' in navigator && !weather) {
             navigator.geolocation.getCurrentPosition(({ coords }) => {
                 const { latitude, longitude }: { latitude: number, longitude: number } = coords
+                localStorage.setItem('user_position', JSON.stringify({ latitude, longitude }))
                 fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${latitude + ',' + longitude}&days=5&aqi=no&alerts=yes`)
                     .then(result => result.json())
                     .then(data => {

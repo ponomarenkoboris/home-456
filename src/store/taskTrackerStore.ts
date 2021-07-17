@@ -2,11 +2,6 @@ import { makeObservable, observable, action } from "mobx";
 import { nanoid } from "nanoid";
 import db from '../api/firebase'
 
-/*
-    TODO <FIX> [MobX] Since strict-mode is enabled, changing (observed) observable values without using an action is not allowed. Tried to modify: TaskTracker@2.columns
-    Add styles
-*/
-
 interface IEntryColumn {
     id: string,
     title: string,
@@ -30,7 +25,9 @@ export interface IInitialState {
     addTask: (content: string) => any,
     deleteTask: (task: IEntryTask) => void
     singleColumnMove: (column: IEntryColumn) => void,
-    betweenColumnMove: (start: IEntryColumn, finish: IEntryColumn) => void
+    betweenColumnMove: (start: IEntryColumn, finish: IEntryColumn) => void,
+    setTaskValues: (tasks: ITasks, columns: IColumns, columnOrder: Array<string>) => void,
+    renameTask: (taskId: string, newName: string) => void
 }
 
 class TaskTracker implements IInitialState {
@@ -39,13 +36,8 @@ class TaskTracker implements IInitialState {
     private columnOrder: Array<string> = []
 
     get trackerTasks() { return this.tasks }
-    set trackerTasks(tasks: ITasks) { this.tasks = tasks }
-
     get trackerColumns() { return this.columns }
-    set trackerColumns(columns: IColumns) { this.columns = columns }
-
     get trackerColumnOrder() { return this.columnOrder }
-    set trackerColumnOrder(columnOrder: Array<string>) { this.columnOrder = columnOrder }
 
     constructor() {
         makeObservable<TaskTracker, 'tasks' | 'columns' | 'columnOrder'>(this, {
@@ -55,64 +47,81 @@ class TaskTracker implements IInitialState {
             addTask: action,
             deleteTask: action,
             singleColumnMove: action,
-            betweenColumnMove: action
+            betweenColumnMove: action,
+            setTaskValues: action,
+            renameTask: action
         })
+    }
+
+    setTaskValues(newTasks: ITasks, newColumns: IColumns, newColumnOrder: Array<string>) {
+        this.tasks = newTasks
+        this.columns = newColumns
+        this.columnOrder = newColumnOrder
+    }
+
+    renameTask(id: string, newName: string) {
+        this.tasks = {
+            ...this.tasks,
+            [id]: {
+                ...this.tasks[id],
+                content: newName
+            }
+        }
+        db.collection('tasks').doc('taskData').update({ tasks: this.tasks })
     }
 
     addTask<T extends string>(content: T) {
         const uniqId = nanoid(10)
-        this.trackerTasks = {
-            ...this.trackerTasks,
+        this.tasks = {
+            ...this.tasks,
             [uniqId]: { id: uniqId, content }
         }
-        this.trackerColumns = {
-            ...this.trackerColumns,
+        this.columns = {
+            ...this.columns,
             ['column-1']: {
-                ...this.trackerColumns['column-1'],
-                taskIds: [...this.trackerColumns['column-1'].taskIds, uniqId]
+                ...this.columns['column-1'],
+                taskIds: [...this.columns['column-1'].taskIds, uniqId]
             }
         }
-
-        db.collection('tasks').doc('taskData').update({ tasks: this.trackerTasks, columns: this.trackerColumns })
+        db.collection('tasks').doc('taskData').update({ tasks: this.tasks, columns: this.columns })
     }
 
     deleteTask(task: IEntryTask) {
-        delete this.trackerTasks[task.id]
-        for (const key of Object.keys(this.trackerColumns)) {
-            if (this.trackerColumns[key].taskIds.find(taskId => taskId === task.id)) {
-                this.trackerColumns = {
-                    ...this.trackerColumns,
+        delete this.tasks[task.id]
+        for (const key of Object.keys(this.columns)) {
+            if (this.columns[key].taskIds.find(taskId => taskId === task.id)) {
+                this.columns = {
+                    ...this.columns,
                     [key]: {
-                        ...this.trackerColumns[key],
-                        taskIds: this.trackerColumns[key].taskIds.filter(taskId => taskId !== task.id)
+                        ...this.columns[key],
+                        taskIds: this.columns[key].taskIds.filter(taskId => taskId !== task.id)
                     }
                 }
             }
         }
-
         db.collection('tasks').doc('taskData').update({
-            tasks: this.trackerTasks,
-            columns: this.trackerColumns
+            tasks: this.tasks,
+            columns: this.columns
         })
     }
 
     singleColumnMove(column: IEntryColumn) {
-        this.trackerColumns = {
-            ...this.trackerColumns,
+        this.columns = {
+            ...this.columns,
             [column.id]: column
         }
 
-        db.collection('tasks').doc('taskData').update({ columns: this.trackerColumns })
+        db.collection('tasks').doc('taskData').update({ columns: this.columns })
     }
 
-    betweenColumnMove<T extends IEntryColumn>(start: T, finish: T) {
-        this.trackerColumns = {
-            ...this.trackerColumns,
+    async betweenColumnMove<T extends IEntryColumn>(start: T, finish: T) {
+        this.columns = {
+            ...this.columns,
             [start.id]: start,
             [finish.id]: finish
         }
 
-        db.collection('tasks').doc('taskData').update({ columns: this.trackerColumns })
+        db.collection('tasks').doc('taskData').update({ columns: this.columns })
     }
 }
 

@@ -14,6 +14,7 @@ class User implements IUserStateType {
     private name = localStorage.getItem('user_displayName') || ''
     private avatar = localStorage.getItem('user_photoURL') || ''
     private email = localStorage.getItem('user_email') || ''
+    
     get displayName() { return this.name }
     get photoUrl() { return this.avatar }
     get userEmail() { return this.email }

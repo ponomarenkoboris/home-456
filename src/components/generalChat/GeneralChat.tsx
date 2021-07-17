@@ -35,18 +35,20 @@ export function GeneralChat() {
             <div className="generalChat__header">
                 <ChatBox />
             </div>
-            <div className="generalChat__posts">
-                {posts.length ? posts.map(post => (
-                    <Post 
-                        key={post.timestamp.seconds}
-                        avatar={post.avatar}
-                        timestamp={new Date(post.timestamp.toDate()).toLocaleTimeString()}
-                        displayName={post.displayName}
-                        email={post.email}
-                        text={post.text}
-                        image={post.image}
-                    />
-                )) : <h1>No messages yet</h1>}
+            <div className="generalChat__postsWrapper">
+                <div className="generalChat__posts">
+                    {posts.length ? posts.map(post => (
+                        <Post
+                            key={post.timestamp.seconds}
+                            avatar={post.avatar}
+                            timestamp={new Date(post.timestamp.toDate()).toLocaleTimeString()}
+                            displayName={post.displayName}
+                            email={post.email}
+                            text={post.text}
+                            image={post.image}
+                        />
+                    )) : <h1>No messages yet</h1>}
+                </div>
             </div>
         </div>
     )

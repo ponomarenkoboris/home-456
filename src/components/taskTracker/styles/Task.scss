@@ -1,8 +1,27 @@
+// TODO z-index: 1; должно быть у всплывющего меню
 .task {
-    text-align: center;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
     border: 1px solid #ccc;
     width: 100%;
+    height: auto;
     background-color: #fff;
     margin-bottom: 4px;
     padding: 5px 0;
+
+    &__actionsPopup {
+        visibility: visible;
+    }
+
+    &:hover &__actionsPopup {
+        visibility: visible;
+    }   
+
+    & > p {
+        margin: 0;
+        margin-left: 10px;
+        white-space: pre-wrap;
+    }
 }

@@ -15,9 +15,7 @@ export const TaskTracker = observer(() => {
             .onSnapshot(snap => {
                 const data = snap.data()
                 if (data?.tasks && data?.columns && data?.columnOrder) {
-                    taskStore.trackerTasks = data.tasks
-                    taskStore.trackerColumns = data.columns
-                    taskStore.trackerColumnOrder = data.columnOrder
+                    taskStore.setTaskValues(data.tasks, data.columns, data.columnOrder)
                 }
             })
     }

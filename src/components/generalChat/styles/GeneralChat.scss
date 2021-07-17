@@ -7,9 +7,10 @@
         border: 1px solid #eee;
     }
 
-    .generalChat__posts {
+    // TODO add adaptive height 
+    .generalChat__postsWrapper {
+        max-height: 60vh;
         overflow-y: scroll;
-        height: 62vh;
 
         &::-webkit-scrollbar {
             display: none;
@@ -19,6 +20,11 @@
         & {
             -ms-overflow-style: none; /* IE and Edge */
             scrollbar-width: none; /* Firefox */
+        }
+
+        .generalChat__posts {
+            display: flex;
+            flex-direction: column;
         }
     }
 }
