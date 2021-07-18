@@ -14,9 +14,8 @@ interface ITask {
     },
     index: number,
 }
-// TODO add remove task logic
 /*
-     TODO <FIX> findDOMNode is deprecated in StrictMode. findDOMNode was passed an instance of Transition which is inside StrictMode. Instead, add a ref directly to the element you want to reference. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-find-node
+    (If reomve StricMode in index.tsx component, this warning will be eliminated) <FIX> findDOMNode is deprecated in StrictMode. findDOMNode was passed an instance of Transition which is inside StrictMode. Instead, add a ref directly to the element you want to reference. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-find-node
 */
 export function Task({ task, index }: ITask) {
     const reference = useRef(null)
@@ -40,7 +39,7 @@ export function Task({ task, index }: ITask) {
     return (
         <Draggable draggableId={task.id} index={index}>
             {provided => (
-                <div 
+                <div
                     className="task"
                     {...provided.dragHandleProps}
                     {...provided.draggableProps}
