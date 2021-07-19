@@ -15,19 +15,44 @@ export const Head = observer(() => {
     const [isChanging, setIsChanging] = useState<boolean>(false)
     const nameRef = useRef<HTMLInputElement>(null)
     const avatarRef = useRef<HTMLInputElement>(null)
+    let srcUrlAvatar: string = '' // переменная для записи src аватара после загрузки клиентом
+    let confirmation: boolean = true // переменная для отмены эвента onBlur
 
     setTimeout(() => setTime({ hour: new Date().getHours(), minutes: new Date().getMinutes() }), 30_000)
 
     const submitUserName = (e: React.SyntheticEvent) => {
         e.preventDefault()
         if (nameRef && nameRef.current && nameRef.current.value.trim().length > 0) user.setName(nameRef.current.value)
-        if (avatarRef && avatarRef.current && avatarRef.current.value.trim().length > 0) user.setAvatar(avatarRef.current.value)
+        if (srcUrlAvatar) {
+            user.setAvatar(srcUrlAvatar)
+            srcUrlAvatar = ''
+        }
+        confirmation = true
         setIsChanging(false)
     }
 
     const logout = () => {
         localStorage.clear()
         window.location.reload()
+    }
+
+    const setAvatarUrl = (): void => {
+        confirmation = false
+        if (avatarRef?.current) {
+            avatarRef.current.click()
+
+            avatarRef.current.onchange = (e: Event) => {
+                const target = e.target as HTMLInputElement
+                if (target.files && target.files[0]) {
+                    const avatar = target.files[0]
+                    const reader = new FileReader()
+
+                    reader.onload = ev => srcUrlAvatar = ev.target?.result as string
+
+                    reader.readAsDataURL(avatar)
+                }
+            }
+        }
     }
 
     return (
@@ -39,16 +64,17 @@ export const Head = observer(() => {
                 </p>
             </div>
             <h1 className="head-page">{linksList.get(location.pathname.split('/')[1])}</h1>
-            <form className="head-user" onSubmit={submitUserName} onBlur={() => setIsChanging(false)}>
+            <form className="head-user" onSubmit={submitUserName} onBlur={() => confirmation && setIsChanging(false)}>
                 {!isChanging ? (
-                    <div className="user__name-wrapper" onClick={() => setIsChanging(true) }>
+                    <div className="user__name-wrapper" onClick={() => setIsChanging(true)}>
                         <p className="user__name">{user.displayName}</p>
                         <img className="user__avatar" src={user.photoUrl} alt={`${user.displayName} avatar`} />
                     </div>
                 ) : (
                     <div className="user__name-wrapper">
                         <input className="user__name-input name-input" placeholder={user.displayName} ref={nameRef} />
-                        <input className="user__name-input" placeholder="Аватар" ref={avatarRef} />
+                        <input type="file" style={{ display: 'none' }} ref={avatarRef} accept='.jpg, .jpeg, .png' />
+                        <Button onClick={setAvatarUrl}>Выбрать фото</Button>
                     </div>
                 )}
                 <button

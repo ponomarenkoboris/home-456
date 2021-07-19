@@ -25,9 +25,8 @@ export function Weather() {
     })
 
     const changeTemp = (e: React.SyntheticEvent) => {
-        const target = e.target as Element
-        if (target.textContent === 'F') setCelsius(false)
-        if (target.textContent === 'C') setCelsius(true)
+        if ((e.target as Element).textContent === 'F') setCelsius(false)
+        if ((e.target as Element).textContent === 'C') setCelsius(true)
     }
 
     return weather ? (
@@ -42,9 +41,9 @@ export function Weather() {
                     <div className="temp__wrapper">
                         <p>{celsius ? weather.current.temp_c : weather.current.temp_f}</p>
                         <div className="temp__selectors" onClick={changeTemp}>
-                            <p style={celsius ? { color: '#000' } : { color: '#e9e9e9' }}>C</p>
+                            <p style={celsius ? { color: '#000' } : { color: '#e9e9e9' }}>&deg;C</p>
                             /
-                            <p style={!celsius ? { color: '#000' } : { color: '#e9e9e9' }}>F</p>
+                            <p style={!celsius ? { color: '#000' } : { color: '#e9e9e9' }}>&deg;F</p>
                         </div>
                     </div>
                     <div className="forecast__image">

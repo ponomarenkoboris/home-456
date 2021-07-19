@@ -3,32 +3,30 @@ import Post from './Post'
 import ChatBox from './ChatBox'
 import './styles/GeneralChat.scss'
 import db from '../../api/firebase'
-
 // TODO Доделать дописать стили для GeneralChat
 
-// interface IPosts {
-//     avatar?: string,
-//     image?: string,
-//     timestamp: string,
-//     displayName: string,
-//     text: string,
-//     email: string
-// }
-
+interface IPosts {
+    avatar?: string,
+    image?: string,
+    timestamp: any, // change type
+    displayName: string,
+    text: string,
+    email: string
+}
 export function GeneralChat() {
-    const [posts, setPosts] = useState<Array<any>>([])
+    const [posts, setPosts] = useState<Array<IPosts>>([])
 
-    
+
     useEffect(() => {
         let isMounted = true
         db.collection("posts")
             .orderBy('timestamp', 'desc')
             .onSnapshot((snapshot) =>
-                isMounted && setPosts(snapshot.docs.map(doc => doc.data()))
+                isMounted && setPosts(snapshot.docs.map(doc => doc.data() as IPosts))
             );
         return () => { isMounted = false };
     })
-    
+
 
     return (
         <div className="generalChat">

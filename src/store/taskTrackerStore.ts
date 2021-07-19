@@ -53,7 +53,7 @@ class TaskTracker implements IInitialState {
         })
     }
 
-    setTaskValues(newTasks: ITasks, newColumns: IColumns, newColumnOrder: Array<string>) {
+    setTaskValues(newTasks: ITasks, newColumns: IColumns, newColumnOrder: Array<string>): void {
         this.tasks = newTasks
         this.columns = newColumns
         this.columnOrder = newColumnOrder
@@ -70,7 +70,7 @@ class TaskTracker implements IInitialState {
         db.collection('tasks').doc('taskData').update({ tasks: this.tasks })
     }
 
-    addTask<T extends string>(content: T) {
+    addTask(content: string): void {
         const uniqId = nanoid(10)
         this.tasks = {
             ...this.tasks,
@@ -86,7 +86,7 @@ class TaskTracker implements IInitialState {
         db.collection('tasks').doc('taskData').update({ tasks: this.tasks, columns: this.columns })
     }
 
-    deleteTask(task: IEntryTask) {
+    deleteTask(task: IEntryTask): void {
         delete this.tasks[task.id]
         for (const key of Object.keys(this.columns)) {
             if (this.columns[key].taskIds.find(taskId => taskId === task.id)) {
@@ -105,7 +105,7 @@ class TaskTracker implements IInitialState {
         })
     }
 
-    singleColumnMove(column: IEntryColumn) {
+    singleColumnMove(column: IEntryColumn): void {
         this.columns = {
             ...this.columns,
             [column.id]: column
