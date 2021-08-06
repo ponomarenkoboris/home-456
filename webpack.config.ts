@@ -11,6 +11,7 @@ const config: typeof webpack.Congiguration = {
     mode: 'development',
     entry: path.resolve(__dirname, 'src', 'index.tsx'),
     output: {
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
     module: {

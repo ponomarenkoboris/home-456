@@ -13,7 +13,7 @@ interface IPosts {
     text: string,
     email: string
 }
-export function GeneralChat() {
+function GeneralChat() {
     const [posts, setPosts] = useState<Array<IPosts>>([])
 
 
@@ -51,3 +51,5 @@ export function GeneralChat() {
         </div>
     )
 }
+
+export default GeneralChat

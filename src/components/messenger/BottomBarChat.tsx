@@ -4,13 +4,13 @@ import { Button } from '@material-ui/core'
 import './styles/BottombarChat.scss'
 import db from '../../api/firebase'
 
-interface IBottombarChatProps {
+interface IBottomBarChatProps {
     addNewChat?: boolean,
     id?: string,
     name?: string
 }
 
-export function BottombarChat({ addNewChat, id, name }: IBottombarChatProps) {
+export function BottomBarChat({ addNewChat, id, name }: IBottomBarChatProps) {
     const history = useHistory();
 
     const createChat = () => {

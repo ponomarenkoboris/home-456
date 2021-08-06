@@ -2,9 +2,9 @@ import React from 'react'
 import './styles/Messenger.scss'
 import { Route } from 'react-router-dom'
 import { Chat } from './Chat'
-import { Bottombar } from './Bottombar'
+import { BottomBar } from './BottomBar'
 
-export function Messenger() {
+function Messenger() {
 
     return (
         <div className='messenger'>
@@ -14,8 +14,10 @@ export function Messenger() {
                 </Route>
             </div>
             <div className="messenger__footer">
-                <Bottombar />
+                <BottomBar />
             </div>
         </div>
     )
 }
+
+export default Messenger

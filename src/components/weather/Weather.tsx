@@ -4,7 +4,7 @@ import { IWeather } from './weatherTypes'
 import './styles/Weather.scss'
 
 // TODO complete styles and render logic 
-export function Weather() {
+function Weather() {
     const [weather, setWeather] = useState<IWeather | null>(null)
     const [celsius, setCelsius] = useState<boolean>(true)
 
@@ -60,7 +60,10 @@ export function Weather() {
         </div>
     ) : (
         <div className="noWeather">
-            <h1>Подождите...</h1>
+            <h1>Progerss </h1>
+
         </div>
     )
 }
+
+export default Weather

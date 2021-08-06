@@ -7,7 +7,7 @@ import db from '../../api/firebase'
 import { observer } from 'mobx-react-lite'
 import { taskStore } from '../../store/taskTrackerStore'
 
-export const TaskTracker = observer(() => {
+const TaskTracker = observer(() => {
 
     if (taskStore.trackerColumnOrder.length === 0){
         db.collection('tasks')
@@ -45,3 +45,5 @@ export const TaskTracker = observer(() => {
         <h1>Wait...</h1>
     )
 })
+
+export default TaskTracker

@@ -6,6 +6,10 @@
     text-transform: none;
 }
 
+.bottombar__chatsWrapper {
+    display: flex;
+}
+
 .bottombarChat__roomName, .MuiButton-label {
     line-height: inherit;
     letter-spacing: inherit;
